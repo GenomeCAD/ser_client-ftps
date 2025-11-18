@@ -57,3 +57,36 @@ python -m pip install --upgrade twine
 ```bash
 python -m twine upload dist/*
 ```
+
+## 6. Code
+
+```bash
+# Edit project metadata
+# ├── pyproject.toml
+# └── setup.cfg
+
+# Ensure build backend is up to date
+python -m pip install --upgrade build
+
+
+# Build both sdist (.tar.gz) and wheel (.whl)
+# → dist/monpackage-0.1.0.tar.gz
+# → dist/monpackage-0.1.0-py3-none-any.whl
+python -m build
+
+
+# Build wheel only
+# → dist/monpackage-0.1.0-py3-none-any.whl
+python -m build --wheel
+
+
+# Install wheel locally (test installation)
+python -m pip install dist/monpackage-0.1.0-py3-none-any.whl
+
+
+# Install Twine (for PyPI upload)
+python -m pip install --upgrade twine
+
+# Upload all artifacts in dist/ to PyPI
+python -m twine upload dist/*
+```
