@@ -58,7 +58,19 @@ python -m pip install --upgrade twine
 python -m twine upload dist/*
 ```
 
-## 6. Code
+## 6. Installer depuis PyPI
+
+Après publication (et propagation), installer depuis PyPI :
+
+```bash
+python -m pip install monpackage
+# ou pour forcer la mise à jour vers la dernière version
+python -m pip install --upgrade monpackage
+# installer une version précise
+python -m pip install monpackage==0.1.0
+```
+
+## 7. Code
 
 ```bash
 # Edit project metadata
