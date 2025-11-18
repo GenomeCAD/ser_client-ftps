@@ -6,9 +6,38 @@
 ## 1. Préparer les fichiers du projet
 Éditer les métadonnées du package :
 
+**pyproject.toml**
+```toml
+[build-system]
+requires = ["setuptools>=61","wheel"]
+build-backend = "setuptools.build_meta"
 ```
-pyproject.toml  
-setup.cfg
+
+**setup.cfg**
+```ini
+[metadata]
+name = monpackage
+version = 0.1.0
+description = Exemple minimal de package
+long_description = file: README.md
+long_description_content_type = text/markdown
+author = Ton Nom
+license = MIT
+classifiers =
+    Programming Language :: Python :: 3
+    License :: OSI Approved :: MIT License
+    Operating System :: OS Independent
+
+[options]
+package_dir =
+    = src
+packages = find:
+python_requires = >=3.8
+
+[options.entry_points]
+console_scripts =
+    moncli = monpackage.cli:main
+
 ```
 
 ## 2. Mettre à jour l’outil de build
