@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Basic usage example for CAD FTPS Client
+Basic usage example for SER Client FTPS
 
-This example demonstrates how to use the CAD FTPS Client for secure file transfers
+This example demonstrates how to use the SER Client FTPS for secure file transfers
 with mutual SSL authentication.
 """
 
@@ -10,8 +10,8 @@ import logging
 import os
 from pathlib import Path
 
-from cad_ftps_client import SecureFTPSClient
-from cad_ftps_client.exceptions import (
+from ser_client_ftps import SecureFTPSClient
+from ser_client_ftps.exceptions import (
     FTPSConnectionError,
     FTPSAuthenticationError,
     FTPSCertificateError,
@@ -44,7 +44,7 @@ def main():
     CLIENT_KEY = CERT_DIR / "client-key.pem"
     CA_CERT = CERT_DIR / "ca-cert.pem"
     
-    logger.info("CAD FTPS Client - Basic Usage Example")
+    logger.info("SER Client FTPS - Basic Usage Example")
     
     try:
         # Initialize FTPS client
@@ -76,7 +76,7 @@ def main():
             
             # Create a test file locally
             local_file = Path("test_file.txt")
-            local_file.write_text("Hello from CAD FTPS Client!")
+            local_file.write_text("Hello from SER Client FTPS!")
             
             # Upload file
             remote_file = f"{test_dir}/test_file.txt"

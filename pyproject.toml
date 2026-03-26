@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "cad-ftps-client"
+name = "ser_client-ftps"
 version = "1.0.0"
 description = "Secure FTPS client with mutual SSL authentication for CAD medical institutions"
 readme = "README.md"
@@ -35,10 +35,10 @@ dev = [
 
 
 [project.urls]
-Homepage = "https://github.com/neil-atr/cad-ftps-client"
-Documentation = "https://github.com/neil-atr/cad-ftps-client#readme"
-Repository = "https://github.com/neil-atr/cad-ftps-client"
-Issues = "https://github.com/neil-atr/cad-ftps-client/issues"
+Homepage = "https://github.com/GenomeCAD/ser_client-ftps"
+Documentation = "https://github.com/GenomeCAD/ser_client-ftps#readme"
+Repository = "https://github.com/GenomeCAD/ser_client-ftps"
+Issues = "https://github.com/GenomeCAD/ser_client-ftps/issues"
 
 [tool.black]
 line-length = 88
@@ -60,4 +60,4 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-v --cov=src/cad_ftps_client --cov-report=html --cov-report=term"
+addopts = "-v --cov=src/ser_client_ftps --cov-report=html --cov-report=term"

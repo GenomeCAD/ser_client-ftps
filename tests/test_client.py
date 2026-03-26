@@ -10,8 +10,8 @@ from unittest.mock import Mock, patch, MagicMock
 import tempfile
 import os
 
-from cad_ftps_client import SecureFTPSClient, SecureFTPSSessionFactory
-from cad_ftps_client.exceptions import (
+from ser_client_ftps import SecureFTPSClient, SecureFTPSSessionFactory
+from ser_client_ftps.exceptions import (
     FTPSConnectionError,
     FTPSAuthenticationError, 
     FTPSCertificateError,
@@ -73,7 +73,7 @@ class TestSecureFTPSClient:
                 ca_file="/nonexistent/ca.pem"    # Missing CA file
             )
 
-    @patch('cad_ftps_client.client.ftputil.FTPHost')
+    @patch('ser_client_ftps.client.ftputil.FTPHost')
     def test_successful_connection(self, mock_ftphost, ftps_client_with_mock_ssl):
         """Successful connection should return context manager"""
         mock_host = Mock()
@@ -90,7 +90,7 @@ class TestSecureFTPSClient:
             session_factory=ftps_client_with_mock_ssl.session_factory
         )
 
-    @patch('cad_ftps_client.client.ftputil.FTPHost')
+    @patch('ser_client_ftps.client.ftputil.FTPHost')
     def test_context_manager_usage(self, mock_ftphost, ftps_client_with_mock_ssl):
         """Context manager should provide host and cleanup properly"""
         mock_host = Mock()
@@ -102,7 +102,7 @@ class TestSecureFTPSClient:
         # Verify cleanup was called
         mock_host.close.assert_called_once()
 
-    @patch('cad_ftps_client.client.ftputil.FTPHost')
+    @patch('ser_client_ftps.client.ftputil.FTPHost')
     def test_connection_error_handling(self, mock_ftphost, ftps_client_with_mock_ssl):
         """Connection errors should be properly handled and re-raised"""
         mock_ftphost.side_effect = Exception("Network error")
@@ -112,7 +112,7 @@ class TestSecureFTPSClient:
 
     def test_context_manager_cleanup_on_exception(self, ftps_client_with_mock_ssl):
         """Context manager should cleanup even if exceptions occur"""
-        with patch('cad_ftps_client.client.ftputil.FTPHost') as mock_ftphost:
+        with patch('ser_client_ftps.client.ftputil.FTPHost') as mock_ftphost:
             mock_host = Mock()
             mock_ftphost.return_value = mock_host
             
@@ -130,8 +130,8 @@ class TestIntegrationScenarios:
     """Integration-style tests with more realistic scenarios"""
     
     @patch.dict(os.environ, {"FTPS_TIMEOUT": "60"})
-    @patch('cad_ftps_client.client.socket.socket')
-    @patch('cad_ftps_client.client.ssl.create_default_context')
+    @patch('ser_client_ftps.client.socket.socket')
+    @patch('ser_client_ftps.client.ssl.create_default_context')
     def test_session_factory_with_timeout_configuration(self, mock_ssl_context, mock_socket, mock_certificates):
         """Session factory should respect timeout configuration"""
         mock_context = Mock()
@@ -156,7 +156,7 @@ class TestIntegrationScenarios:
 
     def test_error_propagation_chain(self, ftps_client_with_mock_ssl):
         """Test that errors propagate correctly through the call stack"""
-        with patch('cad_ftps_client.client.ftputil.FTPHost') as mock_ftphost:
+        with patch('ser_client_ftps.client.ftputil.FTPHost') as mock_ftphost:
             # Simulate an authentication error from deep in the stack
             mock_ftphost.side_effect = FTPSAuthenticationError("530 Login incorrect")
             
