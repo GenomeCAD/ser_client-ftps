@@ -1,5 +1,5 @@
 """
-Test configuration and fixtures for cad-ftps-client tests
+Test configuration and fixtures for ser_client-ftps tests
 """
 
 import pytest
@@ -51,7 +51,7 @@ RrQI5x7cEaL1Mq2X8eRrQI5x7cEaL1Mq2X8eRrQI5x7cEaL1Mq2X8eRrQI5x7cEa
 @pytest.fixture 
 def mock_ssl_context():
     """Mock SSL context to avoid certificate validation in tests"""
-    with patch('cad_ftps_client.client.ssl.create_default_context') as mock_context:
+    with patch('ser_client_ftps.client.ssl.create_default_context') as mock_context:
         mock_ctx = Mock()
         mock_context.return_value = mock_ctx
         yield mock_ctx
@@ -60,7 +60,7 @@ def mock_ssl_context():
 @pytest.fixture
 def ftps_client_with_mock_ssl(mock_certificates, mock_ssl_context):
     """Create FTPS client with mocked SSL context"""
-    from cad_ftps_client import SecureFTPSClient
+    from ser_client_ftps import SecureFTPSClient
     
     return SecureFTPSClient(
         host="test.ftps.server",

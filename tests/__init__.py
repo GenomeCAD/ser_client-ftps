@@ -1,1 +1,1 @@
-# Tests package for cad-ftps-client
+# Tests package for ser_client-ftps

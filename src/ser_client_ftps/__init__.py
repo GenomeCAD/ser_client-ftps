@@ -1,5 +1,5 @@
 """
-CAD FTPS Client
+SER Client FTPS
 
 Secure FTPS client with mutual SSL authentication for CAD medical institutions.
 Provides professional FTPS client functionality using ftputil for high-level operations

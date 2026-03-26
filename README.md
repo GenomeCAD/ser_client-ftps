@@ -1,4 +1,4 @@
-# CAD FTPS Client
+# SER Client FTPS
 
 Secure FTPS client with mutual SSL authentication for CAD medical institutions.
 
@@ -13,13 +13,13 @@ Secure FTPS client with mutual SSL authentication for CAD medical institutions.
 ## Installation
 
 ```bash
-pip install cad-ftps-client
+pip install git+https://github.com/GenomeCAD/ser_client-ftps.git@v0.2.0
 ```
 
 ## Quick Start
 
 ```python
-from cad_ftps_client import SecureFTPSClient
+from ser_client_ftps import SecureFTPSClient
 
 # Initialize client with certificates
 client = SecureFTPSClient(
@@ -66,7 +66,7 @@ with client.connect("username", "password") as host:
 ### Error Handling
 
 ```python
-from cad_ftps_client.exceptions import (
+from ser_client_ftps.exceptions import (
     FTPSConnectionError,
     FTPSAuthenticationError,
     FTPSCertificateError,
@@ -116,8 +116,8 @@ The client enforces strong security by default:
 ### Setup Development Environment
 
 ```bash
-git clone https://github.com/GenomeCAD/cad-ftps-client
-cd cad-ftps-client
+git clone https://github.com/GenomeCAD/ser_client-ftps
+cd ser_client-ftps
 pip install -e ".[dev]"
 ```
 

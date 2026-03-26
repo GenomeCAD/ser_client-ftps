@@ -5,7 +5,7 @@ Tests the exception hierarchy and error handling behavior.
 """
 
 import pytest
-from cad_ftps_client.exceptions import (
+from ser_client_ftps.exceptions import (
     FTPSError,
     FTPSConnectionError,
     FTPSAuthenticationError,
