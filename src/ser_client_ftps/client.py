@@ -199,6 +199,72 @@ class SecureFTPSClient:
             logger.error(f"Connection failed: {e}")
             raise FTPSConnectionError(f"Failed to connect to FTPS server: {e}")
 
+    def pull_ack(
+        self,
+        username: str,
+        password: str,
+        remote_folder_path: str,
+        institution_name: str,
+    ) -> tuple[Optional[str], Optional[str]]:
+        """Pull the most recent ACK file from the remote folder.
+
+        If multiple .ack files exist, returns the one with the latest
+        modification time to avoid processing duplicates or old files.
+
+        Args:
+            username: FTP username
+            password: FTP password
+            remote_folder_path: Remote directory to scan for .ack files
+            institution_name: Used in log messages to identify the institution
+
+        Returns:
+            Tuple of (filename, content), or (None, None) if no .ack file found
+        """
+        most_recent_filename = None
+        file_content = None
+
+        try:
+            with self.connect(username, password) as host:
+                try:
+                    ack_files_with_modif_time = []
+
+                    for filename in host.listdir(remote_folder_path):
+                        if filename.endswith(".ack"):
+                            remote_file_path = os.path.join(remote_folder_path, filename)
+                            try:
+                                modif_time = host.path.getmtime(remote_file_path)
+                                ack_files_with_modif_time.append((filename, modif_time))
+                            except Exception as e:
+                                logger.warning(
+                                    f"Could not get modification time for {filename}: {e}"
+                                )
+                                ack_files_with_modif_time.append((filename, 0))
+
+                    if not ack_files_with_modif_time:
+                        return None, None
+
+                    ack_files_with_modif_time.sort(key=lambda x: x[1], reverse=True)
+                    most_recent_filename = ack_files_with_modif_time[0][0]
+
+                    if len(ack_files_with_modif_time) > 1:
+                        all_files = [f[0] for f in ack_files_with_modif_time]
+                        logger.info(
+                            f"Multiple ACK files found in {remote_folder_path}: {all_files}. "
+                            f"Processing most recent: {most_recent_filename}"
+                        )
+
+                    remote_file_path = os.path.join(remote_folder_path, most_recent_filename)
+                    with host.open(remote_file_path, "r") as remote_file:
+                        file_content = remote_file.read()
+
+                except Exception as e:
+                    logger.warning(f"FTPS directory listing failed: {e}")
+
+        except Exception as e:
+            logger.warning(f"FTPS ACK pull failed for {institution_name}: {e}")
+
+        return (most_recent_filename, file_content)
+
     def __enter__(self):
         """Enter context manager"""
         logger.debug("Enter FTPS context manager")
